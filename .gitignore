@@ -1,0 +1,6 @@
+keys.txt
+DATA.xlsx
+Digitacion/
+__pycache__/
+*.pyc
+.env
