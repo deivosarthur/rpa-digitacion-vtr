@@ -34,7 +34,7 @@ def obtener_materiales_por_ot(ot):
     cursor = conn.cursor()
     
     query="""
-    SELECT Codigo_a_rebajar, Tipo_de_Actividad, Tecnico
+    SELECT Codigo_a_rebajar, Tipo_de_Actividad, Tecnico, Declarado
     FROM proceso_digitacion_detalle_materiales
     WHERE OT = ?
     """
@@ -44,3 +44,18 @@ def obtener_materiales_por_ot(ot):
     
     conn.close()
     return rows
+
+def actualizar_estado(ot, estado):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    query="""
+    UPDATE proceso_digitacion_resumen
+    SET Estado_digitacion = 'Procesado'
+    WHERE OT = ?
+    """
+    
+    cursor.execute(query, ot)
+    conn.commit()
+    
+    conn.close()

@@ -3,7 +3,8 @@ import subprocess
 import threading
 import queue
 import os
-
+from pathlib import Path
+import sys
 # Configuración de colores
 COLOR_OFF = "red"
 COLOR_ON_LIGHT = "#90EE90"  # Verde claro
@@ -37,7 +38,7 @@ def run_digitacion_thread(monitor_id, script_path):
     
     try:
         process = subprocess.Popen(
-            ['python', script_path],
+            [sys.executable, script_path],  # Ejecuta el script con el mismo intérprete de Python
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -80,10 +81,30 @@ def update_gui():
     root.after(100, update_gui)
 
 # --- Funciones de disparo ---
+
+from pathlib import Path
+
 def ejecutar_monitor(id):
-    script = f'./Digitacion/digitacion{id}.py'
+
+
+    if getattr(sys, 'frozen', False):
+        base_dir = Path(sys.executable).resolve().parent
+    else:
+        base_dir = Path(__file__).resolve().parent
+
+    script = base_dir / f"digitacion{id}.py"
+    print(sys.executable)
+    if not script.exists():
+        q.put(f"❌ No existe: {script}")
+        print(sys.executable)
+        return
+
     if not running_states[id]:
-        threading.Thread(target=run_digitacion_thread, args=(id, script), daemon=True).start()
+        threading.Thread(
+            target=run_digitacion_thread,
+            args=(id, str(script)),
+            daemon=True
+        ).start()
 
 # --- Interfaz Principal ---
 root = tk.Tk()
