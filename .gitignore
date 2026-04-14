@@ -1,6 +1,19 @@
+#Credenciales
 keys.txt
+.env
+
+# datos
 DATA.xlsx
 Digitacion/
+
+# entorno visual
 __pycache__/
 *.pyc
-.env
+*.pyo
+
+#entrono vitual
+venv/
+
+#visual estudio
+.vscode/
+*.log
