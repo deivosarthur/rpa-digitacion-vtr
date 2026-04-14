@@ -1,6 +1,8 @@
 # Proyecto : RPA "TG Bots"
 # Propietario : Technogroup SPA
 # Creador: Jose Huaiquiman Arce
+# modificacion: Adolfo Puentes
+#Modificacion: 2024-06-17 - Conexion de base de datos e integracion al bot
 
 from selenium import webdriver  #
 import time  #Ejercicio 1 , libreria nativa de python, para controlar el tiempo de espera del time.sleep()
@@ -20,7 +22,7 @@ import re # ¡Añade esta línea!
 import sys
 import json
 from pathlib import Path
-
+from db_connection import obtener_ordenes, obtener_materiales_por_ot, actualizar_estado 
 
 #from selenium.common.exceptions import TimeoutException
 #from playsound import playsound # primero se ejecuta (pip install pyglet) y luego (pip install playsound)
@@ -86,30 +88,80 @@ class usando_unittest(unittest.TestCase):
                 writer.writerow(['-------------------','--------------','--------------------------------------------------------------------------------'])
             time.sleep(10) # Espera para que cargue bien la pagina
     #
-    #------- Importación de datos desde excel DATA.xlsx 
+    #------- Importación de datos desde excel DATA.xlsx (modificacion 2024-06-17) ------
     #
             try:
-                print(f"NDC{monitor} -> Extracción de datos desde excel")
+                print(f"NDC{monitor} -> Importando datos desde SQL")
                 sys.stdout.flush()
-                driver.execute_script("document.body.style.zoom='65%'")
-                filesheet = "./Digitacion/DATA.xlsx"
-                wb = load_workbook(filesheet, data_only=True)
-                declaraciones = wb[f'DataParaBots{monitor}']
-                valores_encontrados = {} # Diccionario para almacenar valores y sus celdas
-            
-                # 1. Recorre la columna 'A' celda por celda
-                for fila in range(1, declaraciones.max_row + 1):
-                    celda = declaraciones[f'A{fila}']
-                    valor_celda = celda.value
-            
-                    # Solo procesa celdas con un valor
-                    if valor_celda is not None:
-                        # Si el valor ya está en el diccionario, añade la coordenada de la celda
-                        if valor_celda in valores_encontrados:
-                            valores_encontrados[valor_celda].append(celda.coordinate)
-                        # Si es la primera vez que encuentras el valor, crea una nueva entrada
-                        else:
-                            valores_encontrados[valor_celda] = [celda.coordinate]
+                
+                ordenes = obtener_ordenes()
+                
+                for orden in ordenes:
+                    valor_a = orden.OT
+                    print(f"NDC{monitor} -> Orden a declarar: {valor_a}")
+                    sys.stdout.flush()
+                    
+                    resultado = "ERROR"
+                    
+                    try:
+                        folio_ot = driver.find_element(By.XPATH, f"//*[@id='numero_ot']")
+                        folio_ot.clear()  # limpia el contenido anterior
+                        folio_ot.send_keys(valor_a)
+                        folio_ot.click()
+                        time.sleep(1)
+                        
+                        wait = WebDriverWait(driver, 8)  # Espera un máximo de 15 segundos la visibillidad del boton, pero si lo encuentra pasa inmediatamente
+                        btn_buscar = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='boton-buscar']/span")))
+                        btn_buscar.click()
+                        time.sleep(5)
+                        
+                        # valdiacion ya declarada
+                        try: 
+                            WebDriverWait(driver, 6).until(
+                                EC.any_of(  
+                                   EC.text_to_be_present_in_element((By.XPATH, "//*[@id='div_declaraciones_realizadas']/table/tbody/tr[3]/td[6]"), "Declarada"),
+                                   EC.text_to_be_present_in_element((By.XPATH, "//*[@id='div_declaraciones_realizadas']/table/tbody/tr[3]/td[6]"), "En proceso")
+                                )
+                            )
+                            print(f"NDC{monitor} -> Orden ya declarada")
+                            resultado = "YA_PROCESADA"
+                        except:
+                            #SOLO AGREGAMOS MATERIALES DESDE SQL
+                            materiales = obtener_materiales_por_ot(valor_a)
+                            
+                            for material in materiales:
+                                producto = material.Codigo_a_rebajar
+                                cantidad = material.Declarado
+                                
+                                if not cantidad:
+                                    print(f"NDC{monitor} -> Error - Cantidad no especificada para el material {producto}.")
+                                    continue
+                                
+                                print(f"NDC{monitor} -> Material: {producto} | Cantidad: {cantidad}") 
+                                
+                                ingreso_producto = driver.find_element(By.XPATH, f"//*[@id='in_codigo']")
+                                ingreso_producto.clear()  # Limpia el campo antes de ingresar el nuevo producto
+                                ingreso_producto.send_keys(producto)
+                                
+                                time.sleep(2)
+                                
+                                ingreso_cantidad = driver.find_element(By.XPATH, f"//*[@id='cantidad']")
+                                ingreso_cantidad.clear()  # Limpia el campo antes de ingresar la nueva cantidad 
+                                ingreso_cantidad.send_keys(str(cantidad)) # transformamos cantidad a string !!!!
+                                
+                                btn_agregar_material = driver.find_element(By.XPATH, f"//*[@id='ingresar_nuevo']/span")
+                                btn_agregar_material.click()
+                                
+                                time.sleep(1)
+                        
+                        resultado = "OK"
+                    except Exception as e:
+                        print(f"NDC{monitor} -> Error en OT {valor_a}: {e}")
+                        resultado = "ERROR"  
+                    
+                    # Actualizamos el estado de la orden en la base de datos
+                    actualizar_estado(valor_a, resultado)              
+                
             
                 # 2. Recorre el diccionario y extrae los datos de las otras columnas
                 for valor_a, celdas_a in valores_encontrados.items():
