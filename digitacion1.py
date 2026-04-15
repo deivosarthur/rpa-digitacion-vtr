@@ -4,7 +4,7 @@
 # modificacion: Adolfo Puentes
 #Modificacion: 2024-06-17 - Conexion de base de datos e integracion al bot
 
-from db_connection import obtener_ordenes, obtener_materiales_por_ot, actualizar_estado
+from db_connection import obtener_ordenes, obtener_materiales_por_ot, actualizar_estado # Importa las funciones necesarias para interactuar con la base de datos
 
 from selenium import webdriver  
 import time  #Ejercicio 1 , libreria nativa de python, para controlar el tiempo de espera del time.sleep()
@@ -23,7 +23,6 @@ import re # ¡Añade esta línea!
 import sys
 import json
 from pathlib import Path
-
 
 #from selenium.common.exceptions import TimeoutException
 #from playsound import playsound # primero se ejecuta (pip install pyglet) y luego (pip install playsound)
@@ -88,17 +87,14 @@ class usando_unittest(unittest.TestCase):
                 writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S'), 'Credenciales', 'NDC -> Credenciales y Acceso ok'])
                 writer.writerow(['-------------------','--------------','--------------------------------------------------------------------------------'])
             time.sleep(10) # Espera para que cargue bien la pagina
-    #
+    
     #------- Importación de datos desde excel DATA.xlsx (modificacion)
     #
             try:
                 print(f"NDC{monitor} -> Extracción de datos desde sql")
                 sys.stdout.flush()
                 driver.execute_script("document.body.style.zoom='65%'")
-                
-            
-                
-            
+                           
                 # 2. Recorre el diccionario y extrae los datos de las otras columnas
                 ordenes = obtener_ordenes()
 
@@ -414,16 +410,10 @@ class usando_unittest(unittest.TestCase):
                         with open( archivolog, 'a', newline='') as csvfile: 
                             writer = csv.writer(csvfile)
                             writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S'), ' CierreOrden ', ' NDC -> NO Declarada - Existe actividad en la OT no asociada a un trabajo'])
-                            writer.writerow(['-------------------','--------------','--------------------------------------------------------------------------------'])
-            #
-            #--- Eliminación -> Campos correctamente procesados, serán eliminados
-            #               
-                
+                            writer.writerow(['-------------------','--------------','--------------------------------------------------------------------------------'])      
         #
         #--- Errores -> de extraccion de datos
-        #
-           
-            
+        # 
             except Exception as e:
                 with open( archivolog, 'a', newline='') as csvfile: 
                                            writer = csv.writer(csvfile)
@@ -448,8 +438,6 @@ class usando_unittest(unittest.TestCase):
                                            writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S'), ' Navegación ', ' TG Bots -> El archivo de Excel ha sido cerrado.'])
                                            writer.writerow(['-------------------','--------------','--------------------------------------------------------------------------------'])
        
-
-    
     def tearDown(self):
         print(f"NDC{monitor} -> Cierre")
         sys.stdout.flush()
@@ -462,5 +450,4 @@ class usando_unittest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()  
-
 

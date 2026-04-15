@@ -12,22 +12,6 @@ def get_db_connection():
     )
     return conn
 
-def obtener_ordenes():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    query="""
-    SELECT id, OT, Tecnico
-    FROM proceso_digitacion_resumen
-    WHERE Clasificacion_proceso = 'Al BOT'
-      AND Estado_digitacion = 'Pendiente'
-    """
-      
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    
-    conn.close()
-    return rows 
 
 def obtener_materiales_por_ot(ot):
     conn = get_db_connection()
@@ -49,13 +33,48 @@ def actualizar_estado(ot, estado):
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    query="""
+    query = """
     UPDATE proceso_digitacion_resumen
-    SET Estado_digitacion = 'Procesado'
+    SET Estado_digitacion = ?
     WHERE OT = ?
     """
     
-    cursor.execute(query, ot)
+    cursor.execute(query, estado, ot)
     conn.commit()
+    conn.close()
+    
+def obtener_ordenes():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    query = """
+    SELECT id, OT, Tecnico
+    FROM proceso_digitacion_resumen
+    WHERE Estado_digitacion = 'Pendiente'
+      AND (bot IS NULL OR bot = '')
+    """
+      
+    cursor.execute(query)
+    rows = cursor.fetchall()
     
     conn.close()
+    return rows
+
+def tomar_orden(ot, bot_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    query = """
+    UPDATE proceso_digitacion_resumen
+    SET bot = ?, Estado_digitacion = 'En_Proceso'
+    WHERE OT = ?
+      AND (bot IS NULL OR bot = '')
+    """
+    
+    cursor.execute(query, bot_id, ot)
+    conn.commit()
+
+    filas_afectadas = cursor.rowcount
+    conn.close()
+
+    return filas_afectadas > 0
