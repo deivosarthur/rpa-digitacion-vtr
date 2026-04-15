@@ -29,17 +29,18 @@ def obtener_materiales_por_ot(ot):
     conn.close()
     return rows
 
-def actualizar_estado(ot, estado):
+def actualizar_estado(ot, estado_operativo, estado_bot):
     conn = get_db_connection()
     cursor = conn.cursor()
     
     query = """
     UPDATE proceso_digitacion_resumen
-    SET Estado_digitacion = ?
+    SET Estado_digitacion = ?,
+        estado_bot = ?
     WHERE OT = ?
     """
     
-    cursor.execute(query, estado, ot)
+    cursor.execute(query, estado_operativo, estado_bot, ot)
     conn.commit()
     conn.close()
     

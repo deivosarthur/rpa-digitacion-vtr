@@ -4,7 +4,7 @@
 # modificacion: Adolfo Puentes
 #Modificacion: 2024-06-17 - Conexion de base de datos e integracion al bot
 
-from db_connection import obtener_ordenes, obtener_materiales_por_ot, actualizar_estado # Importa las funciones necesarias para interactuar con la base de datos
+from db_connection import obtener_ordenes, obtener_materiales_por_ot, actualizar_estado, tomar_orden # Importa las funciones necesarias para interactuar con la base de datos
 
 from selenium import webdriver  
 import time  #Ejercicio 1 , libreria nativa de python, para controlar el tiempo de espera del time.sleep()
@@ -98,12 +98,20 @@ class usando_unittest(unittest.TestCase):
                 # 2. Recorre el diccionario y extrae los datos de las otras columnas
                 ordenes = obtener_ordenes()
 
+                
+                
                 for orden in ordenes:
                     id_orden = orden.id
                     ot = orden.OT
-                    tecnico = orden.Tecnico
 
-                    print(f"Procesando OT: {ot}")
+                    # 🔥 INTENTAR TOMAR LA OT
+                    tomada = tomar_orden(ot, f"BOT_{monitor}")
+
+                    if not tomada:
+                        print(f"NDC{monitor} -> OT {ot} ya fue tomada por otro bot")
+                        continue
+
+                    print(f"NDC{monitor} -> OT {ot} tomada correctamente")
             #
             # -------  OT Busqueda -------
             #
@@ -130,7 +138,9 @@ class usando_unittest(unittest.TestCase):
                         with open(statusorden, 'a', newline='') as csvfile:
                             writer = csv.writer(csvfile)
                             writer.writerow([f'{ot}; no_existe_o_no_finalizada;', time.strftime('%Y-%m-%d %H:%M:%S')])
-                        actualizar_estado(ot, "NO_EXISTE")
+                        
+                        
+                        actualizar_estado(ot, "Procesado", "NO_EXISTE") #estado de revision
                         # saltar a la siguiente OT
                         continue
 
@@ -168,6 +178,8 @@ class usando_unittest(unittest.TestCase):
                                 )
                             )
                             print(f"NDC{monitor} -> Error - Orden fue declarada con anterioridad.")
+                            actualizar_estado(ot, "Procesado", "YA_DECLARADA") #estado de revision   
+                            continue
                             sys.stdout.flush()
                             print("-" * 50) # Separador para mejor lectura
                             sys.stdout.flush()
@@ -209,6 +221,8 @@ class usando_unittest(unittest.TestCase):
                                     writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S'), ' CierreOrden ', ' NDC -> NO Declarada - Actividad no termino de cargar o existe un problema con la actividad'])
                                     writer.writerow(['-------------------','--------------','--------------------------------------------------------------------------------'])
                                 seguir_declaracion = False 
+                                actualizar_estado(ot, "Procesado", "ERROR_ACTIVIDAD") #estado de revision
+                                continue
                                 with open( statusorden, 'a', newline='') as csvfile: 
                                     writer = csv.writer(csvfile)
                                     writer.writerow([ f'{ot} ; existe un problema con la actividad ;', time.strftime('%Y-%m-%d %H:%M:%S')]) 
@@ -280,6 +294,8 @@ class usando_unittest(unittest.TestCase):
                                     boton_material_notificacion = driver.find_element(By.XPATH, "/html/body/div[8]/div[3]/div/button/span") # Usar XPATH Procesar
                                     boton_material_notificacion.click()
                                     print(f"NDC{monitor} -> Error - no detecta producto erroneo.")
+                                    actualizar_estado(ot, "Procesado", "ERROR_MATERIAL") #estado de revision
+                                    continue
                                     sys.stdout.flush()
                                     print("-" * 50) # Separador para mejor lectura
                                     sys.stdout.flush()
@@ -304,6 +320,8 @@ class usando_unittest(unittest.TestCase):
                                         EC.text_to_be_present_in_element((By.TAG_NAME, 'body'), "sin stock suficiente")
                                     )
                                     print(f"NDC{monitor} -> No Declarada - Stock InSuficiente.")
+                                    actualizar_estado(ot, "Procesado", "SIN_STOCK") #estado de revision
+                                    continue                                 
                                     sys.stdout.flush()
                                     print("-" * 50) # Separador para mejor lectura
                                     sys.stdout.flush()
@@ -361,7 +379,7 @@ class usando_unittest(unittest.TestCase):
                                             print(f"NDC{monitor} -> Material declarado correctamente.")
                                             sys.stdout.flush()
                                             print("-" * 50) # Separador para mejor lectura
-                                            actualizar_estado(ot, "OK")
+                                            actualizar_estado(ot, "Procesado", "PROCESADO") #estado de revision
                                             print(f"OT {ot} actualizada a estado 'Procesado' en la base de datos.")
                                             sys.stdout.flush()
                                             with open( archivolog, 'a', newline='') as csvfile: 
