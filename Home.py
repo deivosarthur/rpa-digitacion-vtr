@@ -9,7 +9,7 @@ import sys
 COLOR_OFF = "red"
 COLOR_ON_LIGHT = "#90EE90"  # Verde claro
 COLOR_ON_DARK = "#228B22"   # Verde oscuro
-
+log_text = None
 q = queue.Queue()
 info_label = None
 
@@ -63,21 +63,30 @@ def create_status_light(parent):
     return canvas
 
 def update_gui():
-    global info_label
+    global log_text
+
     try:
         while True:
             line = q.get_nowait()
-            if info_label is None:
-                info_label = tk.Label(frame, text="", justify="left", wraplength=350, font=("Consolas", 8))
-                info_label.pack(pady=5)
-            
-            current_text = info_label.cget("text")
-            # Limitar el log para que no crezca infinitamente (últimas 15 líneas)
-            lines = (current_text + "\n" + line).split('\n')[-15:]
-            info_label.config(text="\n".join(lines))
+
+            if log_text is None:
+                log_text = tk.Text(frame, height=15, wrap="word", font=("Consolas", 8))
+                log_text.pack(pady=5, fill="both", expand=True)
+
+                scrollbar = tk.Scrollbar(frame, command=log_text.yview)
+                scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+                log_text.config(yscrollcommand=scrollbar.set)
+
+            # 🔥 insertar texto correctamente
+            log_text.insert(tk.END, line + "\n")
+            log_text.see(tk.END)  # auto scroll
+
             q.task_done()
+
     except queue.Empty:
         pass
+
     root.after(100, update_gui)
 
 # --- Funciones de disparo ---

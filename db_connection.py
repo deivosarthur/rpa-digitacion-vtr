@@ -52,6 +52,7 @@ def obtener_ordenes():
     SELECT id, OT, Tecnico
     FROM proceso_digitacion_resumen
     WHERE Estado_digitacion = 'Pendiente'
+      AND Clasificacion_proceso = 'Al BOT'
       AND (bot IS NULL OR bot = '')
     """
       
@@ -67,9 +68,12 @@ def tomar_orden(ot, bot_id):
     
     query = """
     UPDATE proceso_digitacion_resumen
-    SET bot = ?, Estado_digitacion = 'En_Proceso'
-    WHERE OT = ?
-      AND (bot IS NULL OR bot = '')
+SET bot = ?, 
+    Estado_digitacion = 'En_Proceso',
+    fecha_proceso = GETDATE()
+WHERE OT = ?
+  AND Clasificacion_proceso = 'Al BOT'
+  AND (bot IS NULL OR bot = '')
     """
     
     cursor.execute(query, bot_id, ot)

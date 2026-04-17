@@ -1,0 +1,108 @@
+-------------------,--------------,DECLARACION X BOTS (1/2)
+Timestamp,Accion,Detalle
+2026-04-15 18:04:44,Navegacion,TG Bots -> Pagina de inicio cargada
+2026-04-15 18:04:49,Credenciales,NDC -> Credenciales y Acceso ok
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:06:28, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:06:48, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:08:20, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:08:40, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:10:13, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:10:34, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:11:45, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:12:05, CierreOrden , NDC -> SI Declarada >>>>>
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:13:12, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:13:33, CierreOrden , NDC -> SI Declarada >>>>>
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:15:01, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:15:21, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:17:10, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:17:31, CierreOrden , NDC -> SI Declarada >>>>>
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:18:49, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:19:11, CierreOrden , NDC -> SI Declarada >>>>>
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:20:50, CierreOrden , TG Bots -> Error: Ocurrió un error inesperado.
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:20:50, Navegación , TG Bots -> El archivo de Excel ha sido cerrado.
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:20:50, Navegación , TG Bots -> Cierre
+-------------------,--------------,--------------------------------------------------------------------------------
+-------------------,--------------,DECLARACION X BOTS (1/2)
+Timestamp,Accion,Detalle
+2026-04-15 18:32:49,Navegacion,TG Bots -> Pagina de inicio cargada
+2026-04-15 18:32:53,Credenciales,NDC -> Credenciales y Acceso ok
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:34:32, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:34:52, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:36:25, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:36:45, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:38:27, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:38:47, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:40:37, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:40:59, CierreOrden , NDC -> SI Declarada >>>>>
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:42:28, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:42:48, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:44:38, CierreOrden , TG Bots -> Error: Ocurrió un error inesperado.
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:44:38, Navegación , TG Bots -> El archivo de Excel ha sido cerrado.
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:44:38, Navegación , TG Bots -> Cierre
+-------------------,--------------,--------------------------------------------------------------------------------
+-------------------,--------------,DECLARACION X BOTS (1/2)
+Timestamp,Accion,Detalle
+2026-04-15 18:48:25,Navegacion,TG Bots -> Pagina de inicio cargada
+2026-04-15 18:48:29,Credenciales,NDC -> Credenciales y Acceso ok
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:50:08, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:50:28, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:52:02, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:52:22, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:53:55, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:54:15, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:55:49, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:56:09, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:57:51, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 18:58:11, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 18:59:45, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 19:00:05, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:01:38, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 19:01:58, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:03:31, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 19:03:52, CierreOrden , NDC -> SI Declarada >>>>>
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:05:21, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 19:05:41, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:07:25, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 19:07:45, CierreOrden , NDC -> SI Declarada >>>>>
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:10:07, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 19:10:27, CierreOrden ," NDC -> Orden no declarada, fallo la ultima notificación."
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:12:06, CierreOrden , NDC -> Declarada sin refuerzo
+2026-04-15 19:12:26, CierreOrden , NDC -> SI Declarada >>>>>
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:14:17, CierreOrden , TG Bots -> Error: Ocurrió un error inesperado.
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:14:17, Navegación , TG Bots -> El archivo de Excel ha sido cerrado.
+-------------------,--------------,--------------------------------------------------------------------------------
+2026-04-15 19:14:17, Navegación , TG Bots -> Cierre
+-------------------,--------------,--------------------------------------------------------------------------------
